@@ -23,9 +23,7 @@
     "chrono-node": "^1.4.2",
     "dotenv": "^8.2.0",
     "js-yaml": "^3.13.1",
-    "lodash": "^4.17.15"
-  },
-  "devDependencies": {
+    "lodash": "^4.17.15",
     "@babel/cli": "^7.8.3",
     "@babel/core": "^7.8.3",
     "@babel/node": "^7.8.3",
