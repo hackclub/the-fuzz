@@ -1,0 +1,37 @@
+{
+  "name": "the-fuzz",
+  "version": "1.0.0",
+  "description": "Hack Club's Slack Moderation Bot",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx babel-node ./src/index.js",
+    "start": "node ./build/index.js",
+    "fmt": "npx prettier \"{src/**,}/*.js\" --single-quote --no-semi --trailing-comma es5 --write",
+    "build": "npm run clean && npm run build-babel",
+    "clean": "rm -rf build && mkdir build",
+    "build-babel": "npx babel ./src -d ./build -s --copy-files"
+  },
+  "author": "Theo Bleier <tmb@hackclub.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/polyfill": "^7.8.3",
+    "@slack/events-api": "^2.3.1",
+    "@slack/rtm-api": "^5.0.3",
+    "@slack/web-api": "^5.7.0",
+    "airtable": "^0.8.1",
+    "bottleneck": "^2.19.5",
+    "chrono-node": "^1.4.2",
+    "dotenv": "^8.2.0",
+    "js-yaml": "^3.13.1",
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/node": "^7.8.3",
+    "@babel/preset-env": "^7.8.3"
+  },
+  "engines": {
+    "node": "10.x"
+  }
+}
