@@ -9,7 +9,7 @@
     "fmt": "npx prettier \"{src/**,}/*.js\" --single-quote --no-semi --trailing-comma es5 --write",
     "build": "npm run clean && npm run build-babel",
     "clean": "rm -rf build && mkdir build",
-    "build-babel": "npx babel ./src -d ./build -s --copy-files"
+    "build-babel": "babel ./src -d ./build -s --copy-files"
   },
   "author": "Theo Bleier <tmb@hackclub.com>",
   "license": "MIT",
