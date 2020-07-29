@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -17,6 +17,8 @@ exports.removeUserFromChannel = removeUserFromChannel;
 exports.deleteMessage = deleteMessage;
 exports.slackUserIsAdmin = slackUserIsAdmin;
 exports.sendPm = sendPm;
+exports.cachePunishment = cachePunishment;
+exports.getCachedPunishment = getCachedPunishment;
 
 var _webApi = require("@slack/web-api");
 
@@ -34,6 +36,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 function _asyncIterator(iterable) { var method; if (typeof Symbol !== "undefined") { if (Symbol.asyncIterator) { method = iterable[Symbol.asyncIterator]; if (method != null) return method.call(iterable); } if (Symbol.iterator) { method = iterable[Symbol.iterator]; if (method != null) return method.call(iterable); } } throw new TypeError("Object is not async iterable"); }
 
+var NodeCache = require('node-cache');
+
+var punishmentCache = new NodeCache({
+  stdTTL: 120,
+  checkperiod: 130
+});
 var token = process.env.SLACK_TOKEN;
 var web = new _webApi.WebClient(token, {
   maxRequestConcurrency: 2
@@ -45,9 +53,7 @@ function joinChannel(_x) {
 }
 
 function _joinChannel() {
-  _joinChannel = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee(channelId) {
+  _joinChannel = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(channelId) {
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -72,9 +78,7 @@ function joinEveryChannel() {
 }
 
 function _joinEveryChannel() {
-  _joinEveryChannel = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee3() {
+  _joinEveryChannel = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
     var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, page;
 
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
@@ -110,12 +114,8 @@ function _joinEveryChannel() {
             page = _value;
             page.channels.filter(function (c) {
               return c.num_members > 0 && c.is_member == false;
-            }).forEach(
-            /*#__PURE__*/
-            function () {
-              var _ref = _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee2(c) {
+            }).forEach( /*#__PURE__*/function () {
+              var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(c) {
                 var id;
                 return regeneratorRuntime.wrap(function _callee2$(_context2) {
                   while (1) {
@@ -196,9 +196,7 @@ function getNameFromSlackUser(_x2) {
 }
 
 function _getNameFromSlackUser() {
-  _getNameFromSlackUser = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee4(userId) {
+  _getNameFromSlackUser = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(userId) {
     var user;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
@@ -228,9 +226,7 @@ function getAirtableRecordForSlackUser(_x3) {
 }
 
 function _getAirtableRecordForSlackUser() {
-  _getAirtableRecordForSlackUser = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee5(userId) {
+  _getAirtableRecordForSlackUser = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(userId) {
     var result, user, givenName, record;
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
@@ -283,9 +279,7 @@ function banUserFromChannel(_x4, _x5, _x6, _x7, _x8) {
 }
 
 function _banUserFromChannel() {
-  _banUserFromChannel = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee6(modUserId, userId, channelId, reason, time) {
+  _banUserFromChannel = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(modUserId, userId, channelId, reason, time) {
     var user, modName, record;
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
@@ -331,9 +325,7 @@ function muteUserInChannel(_x9, _x10, _x11, _x12, _x13) {
 }
 
 function _muteUserInChannel() {
-  _muteUserInChannel = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee7(modUserId, userId, channelId, reason, time) {
+  _muteUserInChannel = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(modUserId, userId, channelId, reason, time) {
     var user, modName, record;
     return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
@@ -379,9 +371,7 @@ function muteUserInSlack(_x14, _x15, _x16, _x17) {
 }
 
 function _muteUserInSlack() {
-  _muteUserInSlack = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee8(modUserId, userId, reason, time) {
+  _muteUserInSlack = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(modUserId, userId, reason, time) {
     var user, modName, record;
     return regeneratorRuntime.wrap(function _callee8$(_context8) {
       while (1) {
@@ -426,10 +416,8 @@ function getActivePunishmentsForSlackUser(_x18, _x19) {
 }
 
 function _getActivePunishmentsForSlackUser() {
-  _getActivePunishmentsForSlackUser = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee9(userId, type) {
-    var airtableUser, records;
+  _getActivePunishmentsForSlackUser = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(userId, type) {
+    var airtableUser, records, cache;
     return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
@@ -440,44 +428,96 @@ function _getActivePunishmentsForSlackUser() {
           case 2:
             airtableUser = _context9.sent;
             _context9.t0 = type;
-            _context9.next = _context9.t0 === 'channel_ban' ? 6 : _context9.t0 === 'channel_mute' ? 10 : _context9.t0 === 'full_mute' ? 14 : 18;
+            _context9.next = _context9.t0 === 'channel_ban' ? 6 : _context9.t0 === 'channel_mute' ? 15 : _context9.t0 === 'full_mute' ? 26 : 35;
             break;
 
           case 6:
-            _context9.next = 8;
-            return airtable.airGet('Punishments', 'AND({For} = "' + userId + '", {Type} = "channel_ban", IS_AFTER({Valid Until}, NOW()) = 1)');
+            cache = getCachedPunishment(userId, 'channel_ban');
 
-          case 8:
-            records = _context9.sent;
-            return _context9.abrupt("break", 21);
+            if (!cache) {
+              _context9.next = 10;
+              break;
+            }
+
+            records = cache;
+            return _context9.abrupt("break", 45);
 
           case 10:
             _context9.next = 12;
-            return airtable.airGet('Punishments', 'AND({For} = "' + userId + '", {Type} = "channel_mute", IS_AFTER({Valid Until}, NOW()) = 1)');
+            return airtable.airGet('Punishments', 'AND({For} = "' + userId + '", {Type} = "channel_ban", IS_AFTER({Valid Until}, NOW()) = 1)');
 
           case 12:
             records = _context9.sent;
-            return _context9.abrupt("break", 21);
+            cachePunishment(userId, 'channel_ban', records);
+            return _context9.abrupt("break", 45);
 
-          case 14:
-            _context9.next = 16;
-            return airtable.airGet('Punishments', 'AND({For} = "' + userId + '", {Type} = "full_mute", IS_AFTER({Valid Until}, NOW()) = 1)');
+          case 15:
+            cache = getCachedPunishment(userId, 'channel_mute');
 
-          case 16:
-            records = _context9.sent;
-            return _context9.abrupt("break", 21);
+            if (!cache) {
+              _context9.next = 20;
+              break;
+            }
 
-          case 18:
-            _context9.next = 20;
-            return airtable.airGet('Punishments', 'AND({For} = "' + userId + '", IS_AFTER({Valid Until}, NOW()) = 1)');
+            records = cache;
+            console.log('using cache');
+            return _context9.abrupt("break", 45);
 
           case 20:
-            records = _context9.sent;
+            console.log('not using cache');
+            _context9.next = 23;
+            return airtable.airGet('Punishments', 'AND({For} = "' + userId + '", {Type} = "channel_mute", IS_AFTER({Valid Until}, NOW()) = 1)');
 
-          case 21:
+          case 23:
+            records = _context9.sent;
+            cachePunishment(userId, 'channel_mute', records);
+            return _context9.abrupt("break", 45);
+
+          case 26:
+            cache = getCachedPunishment(userId, 'full_mute');
+
+            if (!cache) {
+              _context9.next = 30;
+              break;
+            }
+
+            records = cache;
+            return _context9.abrupt("break", 45);
+
+          case 30:
+            _context9.next = 32;
+            return airtable.airGet('Punishments', 'AND({For} = "' + userId + '", {Type} = "full_mute", IS_AFTER({Valid Until}, NOW()) = 1)');
+
+          case 32:
+            records = _context9.sent;
+            cachePunishment(userId, 'full_mute', records);
+            return _context9.abrupt("break", 45);
+
+          case 35:
+            cache = getCachedPunishment(userId, 'all');
+
+            if (!cache) {
+              _context9.next = 40;
+              break;
+            }
+
+            records = cache;
+            console.log('using cache');
+            return _context9.abrupt("break", 45);
+
+          case 40:
+            console.log('not cached');
+            _context9.next = 43;
+            return airtable.airGet('Punishments', 'AND({For} = "' + userId + '", IS_AFTER({Valid Until}, NOW()) = 1)');
+
+          case 43:
+            records = _context9.sent;
+            cachePunishment(userId, 'all', records);
+
+          case 45:
             return _context9.abrupt("return", records);
 
-          case 22:
+          case 46:
           case "end":
             return _context9.stop();
         }
@@ -492,9 +532,7 @@ function removeUserFromChannel(_x20, _x21) {
 }
 
 function _removeUserFromChannel() {
-  _removeUserFromChannel = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee10(userId, channelId) {
+  _removeUserFromChannel = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(userId, channelId) {
     return regeneratorRuntime.wrap(function _callee10$(_context10) {
       while (1) {
         switch (_context10.prev = _context10.next) {
@@ -520,9 +558,7 @@ function deleteMessage(_x22, _x23) {
 }
 
 function _deleteMessage() {
-  _deleteMessage = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee11(channelId, messageTs) {
+  _deleteMessage = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(channelId, messageTs) {
     return regeneratorRuntime.wrap(function _callee11$(_context11) {
       while (1) {
         switch (_context11.prev = _context11.next) {
@@ -548,9 +584,7 @@ function slackUserIsAdmin(_x24) {
 }
 
 function _slackUserIsAdmin() {
-  _slackUserIsAdmin = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee12(userId) {
+  _slackUserIsAdmin = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(userId) {
     var response;
     return regeneratorRuntime.wrap(function _callee12$(_context12) {
       while (1) {
@@ -580,9 +614,7 @@ function sendPm(_x25, _x26) {
 }
 
 function _sendPm() {
-  _sendPm = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee13(userId, message) {
+  _sendPm = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(userId, message) {
     var response;
     return regeneratorRuntime.wrap(function _callee13$(_context13) {
       while (1) {
@@ -609,5 +641,19 @@ function _sendPm() {
     }, _callee13);
   }));
   return _sendPm.apply(this, arguments);
+}
+
+function cachePunishment(userId, type, data) {
+  punishmentCache.set("".concat(userId, "-").concat(type), data);
+}
+
+function getCachedPunishment(userId, type) {
+  var value = punishmentCache.get("".concat(userId, "-").concat(type));
+
+  if (value == undefined) {
+    return false;
+  }
+
+  return value;
 }
 //# sourceMappingURL=util.js.map

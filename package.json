@@ -25,6 +25,7 @@
     "airtable": "^0.8.1",
     "bottleneck": "^2.19.5",
     "chrono-node": "^1.4.8",
+    "core-js": "^3.6.5",
     "dotenv": "^8.2.0",
     "js-yaml": "^3.14.0",
     "lodash": "^4.17.19",

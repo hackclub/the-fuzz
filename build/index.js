@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es6.array.copy-within");
 
@@ -321,12 +321,8 @@ var _require = require('@slack/events-api'),
 var slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
 var slackEvents = createEventAdapter(slackSigningSecret);
 var port = process.env.PORT || 3000;
-slackEvents.on('channel_created',
-/*#__PURE__*/
-function () {
-  var _ref = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee(event) {
+slackEvents.on('channel_created', /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(event) {
     var channelId;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -349,12 +345,8 @@ function () {
     return _ref.apply(this, arguments);
   };
 }());
-slackEvents.on('channel_left',
-/*#__PURE__*/
-function () {
-  var _ref2 = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee2(event) {
+slackEvents.on('channel_left', /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(event) {
     var channelId;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
@@ -377,12 +369,8 @@ function () {
     return _ref2.apply(this, arguments);
   };
 }());
-slackEvents.on('member_joined_channel',
-/*#__PURE__*/
-function () {
-  var _ref3 = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee4(event) {
+slackEvents.on('member_joined_channel', /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(event) {
     var punishments;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
@@ -402,12 +390,8 @@ function () {
             return _context4.abrupt("return");
 
           case 5:
-            punishments.forEach(
-            /*#__PURE__*/
-            function () {
-              var _ref4 = _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee3(p) {
+            punishments.forEach( /*#__PURE__*/function () {
+              var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(p) {
                 return regeneratorRuntime.wrap(function _callee3$(_context3) {
                   while (1) {
                     switch (_context3.prev = _context3.next) {
@@ -443,12 +427,8 @@ function () {
   };
 }()); // handles mutes and removal of messages from people who try to get small bits of text out when banned
 
-slackEvents.on('message',
-/*#__PURE__*/
-function () {
-  var _ref5 = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee6(event) {
+slackEvents.on('message', /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(event) {
     var isAdmin, message, user, time, reason, _user, channel, _time, _reason, _user2, _channel, _time2, _reason2, punishments;
 
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
@@ -493,7 +473,7 @@ function () {
               util.sendPm(event.user, 'Muting <@' + user + '> globally for ' + time + ' because ' + reason + '...');
               util.muteUserInSlack(event.user, user, reason, time);
               util.sendPm(event.user, '<@' + user + '>' + ' has been muted globally!');
-              util.sendPm(user, 'You have been muted globally for reason: ' + reason + ". Please contact someone in @staff if you have any questions. You'll be good to go again in " + time);
+              util.sendPm(user, 'You have been muted globally for reason: ' + reason + ". Please contact someone in <!subteam^S0DJXPY14|staff> if you have any questions. You'll be good to go again in " + time);
             } else if (message.startsWith('channel mute')) {
               // channel mute @name in #channel for 20 minutes because they were being a jerk
               _user = new RegExp(/(?<=mute\s).*.+?(?=\sin)/).exec(message)[0].replace('<@', '').replace('>', '');
@@ -503,7 +483,7 @@ function () {
               util.sendPm(event.user, 'Muting <@' + _user + '> in <#' + channel + '> for ' + _time + ' because ' + _reason + '...');
               util.muteUserInChannel(event.user, _user, channel, _reason, _time);
               util.sendPm(event.user, '<@' + _user + '> has been muted for ' + _time + ' in <#' + channel + '>!');
-              util.sendPm(_user, 'You have been muted in <#' + channel + '> for ' + _time + ' for reason: ' + _reason + ". Please contact someone in @staff if you have any questions. You'll be good to go again in " + _time);
+              util.sendPm(_user, 'You have been muted in <#' + channel + '> for ' + _time + ' for reason: ' + _reason + ". Please contact someone in <!subteam^S0DJXPY14|staff> if you have any questions. You'll be good to go again in " + _time);
             } else if (message.startsWith('ban')) {
               // ban @name from #channel for 20 minutes because they were a jerk
               _user2 = new RegExp(/(?<=ban\s).*.+?(?=\sfrom)/).exec(message)[0].replace('<@', '').replace('>', '');
@@ -514,7 +494,7 @@ function () {
               util.removeUserFromChannel(_user2, _channel);
               util.banUserFromChannel(event.user, _user2, _channel, _reason2, _time2);
               util.sendPm('<@' + _user2 + '> has been banned from <#' + _channel + '> for ' + _time2 + '!');
-              util.sendPm(_user2, 'You have been banned from <#' + _channel + '> for ' + _time2 + ' for reason: ' + _reason2 + ". Please contact someone in @staff if you have any questions. You'll be good to go again in " + _time2);
+              util.sendPm(_user2, 'You have been banned from <#' + _channel + '> for ' + _time2 + ' for reason: ' + _reason2 + ". Please contact someone in <!subteam^S0DJXPY14|staff> if you have any questions. You'll be good to go again in " + _time2);
             }
 
           case 11:
@@ -540,12 +520,8 @@ function () {
             return _context6.abrupt("return");
 
           case 18:
-            punishments.forEach(
-            /*#__PURE__*/
-            function () {
-              var _ref6 = _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee5(p) {
+            punishments.forEach( /*#__PURE__*/function () {
+              var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(p) {
                 return regeneratorRuntime.wrap(function _callee5$(_context5) {
                   while (1) {
                     switch (_context5.prev = _context5.next) {
@@ -584,9 +560,7 @@ function () {
   };
 }());
 
-_asyncToGenerator(
-/*#__PURE__*/
-regeneratorRuntime.mark(function _callee7() {
+_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
   var server;
   return regeneratorRuntime.wrap(function _callee7$(_context7) {
     while (1) {

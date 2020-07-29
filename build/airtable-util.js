@@ -96,12 +96,8 @@ var airCreate = function airCreate(tableName, fields) {
 
 exports.airCreate = airCreate;
 
-var airFind =
-/*#__PURE__*/
-function () {
-  var _ref = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee(tableName, fieldName, value) {
+var airFind = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(tableName, fieldName, value) {
     var options,
         records,
         _args = arguments;
@@ -111,8 +107,8 @@ function () {
           case 0:
             options = _args.length > 3 && _args[3] !== undefined ? _args[3] : {};
             _context.next = 3;
-            return airGet(tableName, fieldName, value, _objectSpread({}, options, {
-              selectBy: _objectSpread({}, options.selectBy, {
+            return airGet(tableName, fieldName, value, _objectSpread(_objectSpread({}, options), {}, {
+              selectBy: _objectSpread(_objectSpread({}, options.selectBy), {}, {
                 maxRecords: 1
               })
             }));
