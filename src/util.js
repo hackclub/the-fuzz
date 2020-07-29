@@ -1,6 +1,9 @@
 import { WebClient } from '@slack/web-api'
 import * as airtable from './airtable-util'
 import * as chrono from 'chrono-node'
+import * as NodeCache from 'node-cache'
+
+const punishmentCache = new NodeCache({ stdTTL: 120, checkperiod: 130 })
 
 const token = process.env.SLACK_TOKEN
 const web = new WebClient(token, { maxRequestConcurrency: 2 })
@@ -18,8 +21,8 @@ export async function joinEveryChannel() {
     exclude_archived: true,
   })) {
     page.channels
-      .filter(c => c.num_members > 0 && c.is_member == false)
-      .forEach(async c => {
+      .filter((c) => c.num_members > 0 && c.is_member == false)
+      .forEach(async (c) => {
         let id = c.id
 
         await joinChannel(id)
@@ -127,34 +130,58 @@ export async function getActivePunishmentsForSlackUser(userId, type) {
 
   switch (type) {
     case 'channel_ban':
+      cache = getCachedPunishment(userId, 'channel_ban')
+      if (cache) {
+        records = cache
+        break
+      }
       records = await airtable.airGet(
         'Punishments',
         'AND({For} = "' +
           userId +
           '", {Type} = "channel_ban", IS_AFTER({Valid Until}, NOW()) = 1)'
       )
+      cachePunishment(userId, 'channel_ban', records)
       break
     case 'channel_mute':
+      cache = getCachedPunishment(userId, 'channel_mute')
+      if (cache) {
+        records = cache
+        break
+      }
       records = await airtable.airGet(
         'Punishments',
         'AND({For} = "' +
           userId +
           '", {Type} = "channel_mute", IS_AFTER({Valid Until}, NOW()) = 1)'
       )
+      cachePunishment(userId, 'channel_mute', records)
       break
     case 'full_mute':
+      cache = getCachedPunishment(userId, 'full_mute')
+      if (cache) {
+        records = cache
+        break
+      }
       records = await airtable.airGet(
         'Punishments',
         'AND({For} = "' +
           userId +
           '", {Type} = "full_mute", IS_AFTER({Valid Until}, NOW()) = 1)'
       )
+      cachePunishment(userId, 'full_mute', records)
       break
     default:
+      cache = getCachedPunishment(userId, 'all')
+      if (cache) {
+        records = cache
+        break
+      }
       records = await airtable.airGet(
         'Punishments',
         'AND({For} = "' + userId + '", IS_AFTER({Valid Until}, NOW()) = 1)'
       )
+      cachePunishment(userId, 'all', records)
   }
 
   return records
@@ -191,4 +218,18 @@ export async function sendPm(userId, message) {
     channel: response.channel.id,
     text: message,
   })
+}
+
+export function cachePunishment(userId, type, data) {
+  punishmentCache.set(`${userId}-${type}`, data)
+}
+
+export function getCachedPunishment(userId, type) {
+  let value = punishmentCache.get(`${userId}-${type}`)
+
+  if (value == undefined) {
+    return false
+  }
+
+  return value
 }

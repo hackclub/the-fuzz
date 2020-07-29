@@ -82,7 +82,7 @@ slackEvents.on('message', async event => {
         user,
         'You have been muted globally for reason: ' +
           reason +
-          ". Please contact someone in @staff if you have any questions. You'll be good to go again in " +
+          ". Please contact someone in <!subteam^S0DJXPY14|staff> if you have any questions. You'll be good to go again in " +
           time
       )
     } else if (message.startsWith('channel mute')) {
@@ -123,7 +123,7 @@ slackEvents.on('message', async event => {
           time +
           ' for reason: ' +
           reason +
-          ". Please contact someone in @staff if you have any questions. You'll be good to go again in " +
+          ". Please contact someone in <!subteam^S0DJXPY14|staff> if you have any questions. You'll be good to go again in " +
           time
       )
     } else if (message.startsWith('ban')) {
@@ -171,7 +171,7 @@ slackEvents.on('message', async event => {
           time +
           ' for reason: ' +
           reason +
-          ". Please contact someone in @staff if you have any questions. You'll be good to go again in " +
+          ". Please contact someone in <!subteam^S0DJXPY14|staff> if you have any questions. You'll be good to go again in " +
           time
       )
     }
