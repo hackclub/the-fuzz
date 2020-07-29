@@ -1,7 +1,7 @@
 import { WebClient } from '@slack/web-api'
 import * as airtable from './airtable-util'
 import * as chrono from 'chrono-node'
-import * as NodeCache from 'node-cache'
+const NodeCache = require('node-cache')
 
 const punishmentCache = new NodeCache({ stdTTL: 120, checkperiod: 130 })
 
@@ -127,6 +127,7 @@ export async function getActivePunishmentsForSlackUser(userId, type) {
   let airtableUser = await getAirtableRecordForSlackUser(userId)
 
   let records
+  let cache
 
   switch (type) {
     case 'channel_ban':
@@ -147,8 +148,10 @@ export async function getActivePunishmentsForSlackUser(userId, type) {
       cache = getCachedPunishment(userId, 'channel_mute')
       if (cache) {
         records = cache
+        console.log('using cache')
         break
       }
+      console.log('not using cache')
       records = await airtable.airGet(
         'Punishments',
         'AND({For} = "' +
@@ -175,8 +178,10 @@ export async function getActivePunishmentsForSlackUser(userId, type) {
       cache = getCachedPunishment(userId, 'all')
       if (cache) {
         records = cache
+        console.log('using cache')
         break
       }
+      console.log('not cached')
       records = await airtable.airGet(
         'Punishments',
         'AND({For} = "' + userId + '", IS_AFTER({Valid Until}, NOW()) = 1)'

@@ -14,23 +14,23 @@
   "author": "Theo Bleier <tmb@hackclub.com>",
   "license": "MIT",
   "dependencies": {
-    "@babel/cli": "^7.8.3",
-    "@babel/core": "^7.8.3",
-    "@babel/node": "^7.8.3",
-    "@babel/polyfill": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
-    "@slack/events-api": "^2.3.1",
-    "@slack/rtm-api": "^5.0.3",
-    "@slack/web-api": "^5.7.0",
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.10.5",
+    "@babel/node": "^7.10.5",
+    "@babel/polyfill": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "@slack/events-api": "^2.3.3",
+    "@slack/rtm-api": "^5.0.5",
+    "@slack/web-api": "^5.11.0",
     "airtable": "^0.8.1",
     "bottleneck": "^2.19.5",
-    "chrono-node": "^1.4.2",
+    "chrono-node": "^1.4.8",
     "dotenv": "^8.2.0",
-    "js-yaml": "^3.13.1",
-    "lodash": "^4.17.15",
+    "js-yaml": "^3.14.0",
+    "lodash": "^4.17.19",
     "node-cache": "^5.1.2"
   },
   "engines": {
-    "node": "10.x"
+    "node": "12.x"
   }
 }
