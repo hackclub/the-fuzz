@@ -24,7 +24,7 @@
     "@slack/web-api": "^5.11.0",
     "airtable": "^0.8.1",
     "bottleneck": "^2.19.5",
-    "chrono-node": "^1.4.8",
+    "chrono-node": "^2.2.4",
     "core-js": "^3.6.5",
     "dotenv": "^8.2.0",
     "js-yaml": "^3.14.0",
