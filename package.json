@@ -22,7 +22,7 @@
     "@slack/events-api": "^2.3.3",
     "@slack/rtm-api": "^5.0.5",
     "@slack/web-api": "^5.11.0",
-    "airtable": "^0.8.1",
+    "airtable": "^0.12.1",
     "bottleneck": "^2.19.5",
     "chrono-node": "^2.2.4",
     "core-js": "^3.6.5",
